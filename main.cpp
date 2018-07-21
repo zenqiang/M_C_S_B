@@ -25,19 +25,19 @@ void drawArrow(cv::Mat& img, cv::Point pStart, cv::Point pEnd, int len, int alph
 {
 	if (pStart == pEnd)
 	{
-		//Ö»»­Ò»¸öµã
+		//åªç”»ä¸€ä¸ªç‚¹
 		circle(img, pStart, 1, color);
 		return;
 	}
 
 	const double PI = 3.1415926;
 	Point arrow;
-	//¼ÆËã ¦È ½Ç£¨×î¼òµ¥µÄÒ»ÖÖÇé¿öÔÚÏÂÃæÍ¼Ê¾ÖĞÒÑ¾­Õ¹Ê¾£¬¹Ø¼üÔÚÓÚ atan2 º¯Êı£¬ÏêÇé¼ûÏÂÃæ£©   
+	//è®¡ç®— Î¸ è§’ï¼ˆæœ€ç®€å•çš„ä¸€ç§æƒ…å†µåœ¨ä¸‹é¢å›¾ç¤ºä¸­å·²ç»å±•ç¤ºï¼Œå…³é”®åœ¨äº atan2 å‡½æ•°ï¼Œè¯¦æƒ…è§ä¸‹é¢ï¼‰   
 	double angle = atan2((double)(pStart.y - pEnd.y), (double)(pStart.x - pEnd.x));
 
 	line(img, pStart, pEnd, color, thickness, lineType);
 
-	//¼ÆËã¼ı½Ç±ßµÄÁíÒ»¶ËµÄ¶ËµãÎ»ÖÃ£¨ÉÏÃæµÄ»¹ÊÇÏÂÃæµÄÒª¿´¼ıÍ·µÄÖ¸Ïò£¬Ò²¾ÍÊÇpStartºÍpEndµÄÎ»ÖÃ£© 
+	//è®¡ç®—ç®­è§’è¾¹çš„å¦ä¸€ç«¯çš„ç«¯ç‚¹ä½ç½®ï¼ˆä¸Šé¢çš„è¿˜æ˜¯ä¸‹é¢çš„è¦çœ‹ç®­å¤´çš„æŒ‡å‘ï¼Œä¹Ÿå°±æ˜¯pStartå’ŒpEndçš„ä½ç½®ï¼‰ 
 	arrow.x = pEnd.x + len * cos(angle + PI * alpha / 180);
 
 	arrow.y = pEnd.y + len * sin(angle + PI * alpha / 180);
@@ -52,7 +52,7 @@ void drawArrow(cv::Mat& img, cv::Point pStart, cv::Point pEnd, int len, int alph
 }
 
 
-//¼ÆËãÖÊĞÄ
+//è®¡ç®—è´¨å¿ƒ
 float GetCenterOfMass(Mat m)
 {
 	float m_00 = 0, m_01 = 0, m_10 = 0;
@@ -75,49 +75,49 @@ float GetCenterOfMass(Mat m)
 	//return Point2f(x_c, y_c);
 }
 
-//¼ÆËã»Ò¶ÈÖ±·½Í¼
+//è®¡ç®—ç°åº¦ç›´æ–¹å›¾
 Mat getHistograph(const Mat grayImage)
 {
-	//¶¨ÒåÇóÖ±·½Í¼µÄÍ¨µÀÊıÄ¿£¬´Ó0¿ªÊ¼Ë÷Òı  
+	//å®šä¹‰æ±‚ç›´æ–¹å›¾çš„é€šé“æ•°ç›®ï¼Œä»0å¼€å§‹ç´¢å¼•  
 	int channels[] = { 0 };
-	//¶¨ÒåÖ±·½Í¼µÄÔÚÃ¿Ò»Î¬ÉÏµÄ´óĞ¡£¬ÀıÈç»Ò¶ÈÍ¼Ö±·½Í¼µÄºá×ø±êÊÇÍ¼ÏñµÄ»Ò¶ÈÖµ£¬¾ÍÒ»Î¬£¬binµÄ¸öÊı  
-	//Èç¹ûÖ±·½Í¼Í¼Ïñºá×ø±êbin¸öÊıÎªx£¬×İ×ø±êbin¸öÊıÎªy£¬Ôòchannels[]={1,2}ÆäÖ±·½Í¼Ó¦¸ÃÎªÈıÎ¬µÄ£¬ZÖáÊÇÃ¿¸öbinÉÏÍ³¼ÆµÄÊıÄ¿  
+	//å®šä¹‰ç›´æ–¹å›¾çš„åœ¨æ¯ä¸€ç»´ä¸Šçš„å¤§å°ï¼Œä¾‹å¦‚ç°åº¦å›¾ç›´æ–¹å›¾çš„æ¨ªåæ ‡æ˜¯å›¾åƒçš„ç°åº¦å€¼ï¼Œå°±ä¸€ç»´ï¼Œbinçš„ä¸ªæ•°  
+	//å¦‚æœç›´æ–¹å›¾å›¾åƒæ¨ªåæ ‡binä¸ªæ•°ä¸ºxï¼Œçºµåæ ‡binä¸ªæ•°ä¸ºyï¼Œåˆ™channels[]={1,2}å…¶ç›´æ–¹å›¾åº”è¯¥ä¸ºä¸‰ç»´çš„ï¼ŒZè½´æ˜¯æ¯ä¸ªbinä¸Šç»Ÿè®¡çš„æ•°ç›®  
 	const int histSize[] = { 256 };
-	//Ã¿Ò»Î¬binµÄ±ä»¯·¶Î§  
+	//æ¯ä¸€ç»´binçš„å˜åŒ–èŒƒå›´  
 	float range[] = { 0,256 };
 
-	//ËùÓĞbinµÄ±ä»¯·¶Î§£¬¸öÊı¸úchannelsÓ¦¸Ã¸úchannelsÒ»ÖÂ  
+	//æ‰€æœ‰binçš„å˜åŒ–èŒƒå›´ï¼Œä¸ªæ•°è·Ÿchannelsåº”è¯¥è·Ÿchannelsä¸€è‡´  
 	const float* ranges[] = { range };
 
-	//¶¨ÒåÖ±·½Í¼£¬ÕâÀïÇóµÄÊÇÖ±·½Í¼Êı¾İ  
+	//å®šä¹‰ç›´æ–¹å›¾ï¼Œè¿™é‡Œæ±‚çš„æ˜¯ç›´æ–¹å›¾æ•°æ®  
 	Mat hist;
-	//opencvÖĞ¼ÆËãÖ±·½Í¼µÄº¯Êı£¬hist´óĞ¡Îª256*1£¬Ã¿ĞĞ´æ´¢µÄÍ³¼ÆµÄ¸ÃĞĞ¶ÔÓ¦µÄ»Ò¶ÈÖµµÄ¸öÊı  
+	//opencvä¸­è®¡ç®—ç›´æ–¹å›¾çš„å‡½æ•°ï¼Œhistå¤§å°ä¸º256*1ï¼Œæ¯è¡Œå­˜å‚¨çš„ç»Ÿè®¡çš„è¯¥è¡Œå¯¹åº”çš„ç°åº¦å€¼çš„ä¸ªæ•°  
 	calcHist(&grayImage, 1, channels, Mat(), hist, 1, histSize, ranges, true, false);
 
-	//ÕÒ³öÖ±·½Í¼Í³¼ÆµÄ¸öÊıµÄ×î´óÖµ£¬ÓÃÀ´×÷ÎªÖ±·½Í¼×İ×ø±êµÄ¸ß  
+	//æ‰¾å‡ºç›´æ–¹å›¾ç»Ÿè®¡çš„ä¸ªæ•°çš„æœ€å¤§å€¼ï¼Œç”¨æ¥ä½œä¸ºç›´æ–¹å›¾çºµåæ ‡çš„é«˜  
 	double maxValue = 0;
-	//ÕÒ¾ØÕóÖĞ×î´ó×îĞ¡Öµ¼°¶ÔÓ¦Ë÷ÒıµÄº¯Êı  
+	//æ‰¾çŸ©é˜µä¸­æœ€å¤§æœ€å°å€¼åŠå¯¹åº”ç´¢å¼•çš„å‡½æ•°  
 	minMaxLoc(hist, 0, &maxValue, 0, 0);
-	//×î´óÖµÈ¡Õû  
+	//æœ€å¤§å€¼å–æ•´  
 	int rows = cvRound(maxValue);
-	//¶¨ÒåÖ±·½Í¼Í¼Ïñ£¬Ö±·½Í¼×İ×ø±êµÄ¸ß×÷ÎªĞĞÊı£¬ÁĞÊıÎª256(»Ò¶ÈÖµµÄ¸öÊı)  
-	//ÒòÎªÊÇÖ±·½Í¼µÄÍ¼Ïñ£¬ËùÒÔÒÔºÚ°×Á½É«ÎªÇø·Ö£¬°×É«ÎªÖ±·½Í¼µÄÍ¼Ïñ  
+	//å®šä¹‰ç›´æ–¹å›¾å›¾åƒï¼Œç›´æ–¹å›¾çºµåæ ‡çš„é«˜ä½œä¸ºè¡Œæ•°ï¼Œåˆ—æ•°ä¸º256(ç°åº¦å€¼çš„ä¸ªæ•°)  
+	//å› ä¸ºæ˜¯ç›´æ–¹å›¾çš„å›¾åƒï¼Œæ‰€ä»¥ä»¥é»‘ç™½ä¸¤è‰²ä¸ºåŒºåˆ†ï¼Œç™½è‰²ä¸ºç›´æ–¹å›¾çš„å›¾åƒ  
 	Mat histImage = Mat::zeros(rows, 256, CV_8UC1);
 
-	//Ö±·½Í¼Í¼Ïñ±íÊ¾  
+	//ç›´æ–¹å›¾å›¾åƒè¡¨ç¤º  
 	for (int i = 0; i<256; i++)
 	{
-		//È¡Ã¿¸öbinµÄÊıÄ¿  
+		//å–æ¯ä¸ªbinçš„æ•°ç›®  
 		int temp = (int)(hist.at<float>(i, 0));
-		//Èç¹ûbinÊıÄ¿Îª0£¬ÔòËµÃ÷Í¼ÏñÉÏÃ»ÓĞ¸Ã»Ò¶ÈÖµ£¬ÔòÕûÁĞÎªºÚÉ«  
-		//Èç¹ûÍ¼ÏñÉÏÓĞ¸Ã»Ò¶ÈÖµ£¬Ôò½«¸ÃÁĞ¶ÔÓ¦¸öÊıµÄÏñËØÉèÎª°×É«  
+		//å¦‚æœbinæ•°ç›®ä¸º0ï¼Œåˆ™è¯´æ˜å›¾åƒä¸Šæ²¡æœ‰è¯¥ç°åº¦å€¼ï¼Œåˆ™æ•´åˆ—ä¸ºé»‘è‰²  
+		//å¦‚æœå›¾åƒä¸Šæœ‰è¯¥ç°åº¦å€¼ï¼Œåˆ™å°†è¯¥åˆ—å¯¹åº”ä¸ªæ•°çš„åƒç´ è®¾ä¸ºç™½è‰²  
 		if (temp)
 		{
-			//ÓÉÓÚÍ¼Ïñ×ø±êÊÇÒÔ×óÉÏ½ÇÎªÔ­µã£¬ËùÒÔÒª½øĞĞ±ä»»£¬Ê¹Ö±·½Í¼Í¼ÏñÒÔ×óÏÂ½ÇÎª×ø±êÔ­µã  
+			//ç”±äºå›¾åƒåæ ‡æ˜¯ä»¥å·¦ä¸Šè§’ä¸ºåŸç‚¹ï¼Œæ‰€ä»¥è¦è¿›è¡Œå˜æ¢ï¼Œä½¿ç›´æ–¹å›¾å›¾åƒä»¥å·¦ä¸‹è§’ä¸ºåæ ‡åŸç‚¹  
 			histImage.col(i).rowRange(Range(rows - temp, rows)) = 255;
 		}
 	}
-	//ÓÉÓÚÖ±·½Í¼Í¼ÏñÁĞ¸ß¿ÉÄÜºÜ¸ß£¬Òò´Ë½øĞĞÍ¼Ïñ¶ÔÁĞÒª½øĞĞ¶ÔÓ¦µÄËõ¼õ£¬Ê¹Ö±·½Í¼Í¼Ïñ¸üÖ±¹Û  
+	//ç”±äºç›´æ–¹å›¾å›¾åƒåˆ—é«˜å¯èƒ½å¾ˆé«˜ï¼Œå› æ­¤è¿›è¡Œå›¾åƒå¯¹åˆ—è¦è¿›è¡Œå¯¹åº”çš„ç¼©å‡ï¼Œä½¿ç›´æ–¹å›¾å›¾åƒæ›´ç›´è§‚  
 	Mat resizeImage;
 	resize(histImage, resizeImage, Size(256, 256));
 	return resizeImage;
@@ -199,12 +199,12 @@ void main()
 	vector<KeyPoint> keypoints1, keypoints2;
 	Mat image1_descriptors, image2_descriptors;
 
-	SurfFeatureDetector detector;
+	SiftFeatureDetector detector;
 	//BriskFeatureDetector detector;
 	//SurfFeatureDetector descriptor;
 	BriefDescriptorExtractor descriptor;
 
-	//ORB detector;     //²ÉÓÃORBËã·¨ÌáÈ¡ÌØÕ÷µã  
+	//ORB detector;     //é‡‡ç”¨ORBç®—æ³•æå–ç‰¹å¾ç‚¹  
 	detector.detect(gray1, keypoints1);
 	detector.detect(gray2, keypoints2);
 
@@ -231,7 +231,7 @@ void main()
 	descriptor.compute(gray1, keypoints1, image1_descriptors);
 	descriptor.compute(gray2, keypoints2, image2_descriptors);
 
-	BFMatcher matcher(NORM_HAMMING, true); //ººÃ÷¾àÀë×öÎªÏàËÆ¶È¶ÈÁ¿  
+	BFMatcher matcher(NORM_HAMMING, true); //æ±‰æ˜è·ç¦»åšä¸ºç›¸ä¼¼åº¦åº¦é‡  
 	//BruteForceMatcher<L2<float>> matcher;
 
 	vector<DMatch> matches;
@@ -241,9 +241,9 @@ void main()
 
 	Mat match_img;
 	//drawMatches(src1, keypoints1, src2, keypoints2, matches, match_img);
-	//imshow("ÂË³ıÎóÆ¥ÅäÇ°", match_img);
+	//imshow("æ»¤é™¤è¯¯åŒ¹é…å‰", match_img);
 
-	//±£´æÆ¥Åä¶ÔĞòºÅ  
+	//ä¿å­˜åŒ¹é…å¯¹åºå·  
 	vector<int> queryIdxs(matches.size()), trainIdxs(matches.size());
 	for (size_t i = 0; i < matches.size(); i++)
 	{
@@ -251,11 +251,11 @@ void main()
 		trainIdxs[i] = matches[i].trainIdx;
 	}
 
-	Mat H12;   //±ä»»¾ØÕó  
+	Mat H12;   //å˜æ¢çŸ©é˜µ  
 
 	vector<Point2f> points1; KeyPoint::convert(keypoints1, points1, queryIdxs);
 	vector<Point2f> points2; KeyPoint::convert(keypoints2, points2, trainIdxs);
-	int ransacReprojThreshold = 5;  //¾Ü¾øãĞÖµ  
+	int ransacReprojThreshold = 5;  //æ‹’ç»é˜ˆå€¼  
 	H12 = findHomography(Mat(points1), Mat(points2), CV_RANSAC, ransacReprojThreshold);
 	vector<char> matchesMask(matches.size(), 0);
 	Mat points1t;
@@ -263,9 +263,9 @@ void main()
 
 	int mask_sum = 0;
 
-	for (size_t i1 = 0; i1 < points1.size(); i1++)  //±£´æ¡®ÄÚµã¡¯  
+	for (size_t i1 = 0; i1 < points1.size(); i1++)  //ä¿å­˜â€˜å†…ç‚¹â€™  
 	{
-		if (norm(points2[i1] - points1t.at<Point2f>((int)i1, 0)) <= ransacReprojThreshold) //¸øÄÚµã×ö±ê¼Ç  
+		if (norm(points2[i1] - points1t.at<Point2f>((int)i1, 0)) <= ransacReprojThreshold) //ç»™å†…ç‚¹åšæ ‡è®°  
 		{
 			matchesMask[i1] = 1;
 			mask_sum++;
@@ -276,17 +276,17 @@ void main()
 	Mat Mat_img;
 	drawMatches(src1, keypoints1, src2, keypoints2, matches, Mat_img, Scalar(0, 0, 255), Scalar::all(-1), matchesMask);
 
-	imshow("ransacÉ¸Ñ¡ºó", Mat_img);
+	imshow("ransacç­›é€‰å", Mat_img);
 
 	imwrite("result.png", Mat_img);
 
 	double time = ((double)getTickCount() - start) / getTickFrequency();
-	cout << "ËùÓÃÊ±¼äÎª£º" << time << "Ãë" << endl;
+	cout << "æ‰€ç”¨æ—¶é—´ä¸ºï¼š" << time << "ç§’" << endl;
 
-	cout << "Í¼1ÕÒµ½ÌØÕ÷µã£º" << keypoints1.size() << endl;
-	cout << "Í¼2ÕÒµ½ÌØÕ÷µã£º" << keypoints2.size() << endl;
-	cout << "Ò»¹²ÕÒµ½Æ¥Åäµã¶Ô£º" << matches.size() << endl;
-	cout << "ÕıÈ·Æ¥Åäµã¶Ô£º" << mask_sum << endl;
+	cout << "å›¾1æ‰¾åˆ°ç‰¹å¾ç‚¹ï¼š" << keypoints1.size() << endl;
+	cout << "å›¾2æ‰¾åˆ°ç‰¹å¾ç‚¹ï¼š" << keypoints2.size() << endl;
+	cout << "ä¸€å…±æ‰¾åˆ°åŒ¹é…ç‚¹å¯¹ï¼š" << matches.size() << endl;
+	cout << "æ­£ç¡®åŒ¹é…ç‚¹å¯¹ï¼š" << mask_sum << endl;
 
 	waitKey(0);
 
